@@ -119,5 +119,51 @@ void quick_sort(int a[], int n) {
   quick_sort_1(a, 0, n-1);
 }
 
+#define MAX_ELEMENTS 10000
+
+int b[MAX_ELEMENTS];
+
+//配列版マージソート
+//a[low]~a[high]の要素を整列する
+
+void merge_sort_array(int a[], int low, int high) {
+  int mid, i, j, k;
+
+  //要素が一つしかなければ、即座に終了
+  if (low >= high) {
+    return;
+  }
+
+  //列を2つに分割するmidを決定
+  mid = (low + high) / 2;
+
+  //前半の要素a[low]~a[mid]を整列
+  merge_sort_array(a, low, mid);
+
+  //後半の要素a[mid+1]~a[high]を整列
+  merge_sort_array(a, mid+1, high);
+
+  //前半の要素をそのまま作業用配列にコピー
+  for (i = low; i <= mid; i++) {
+    b[i] = a[i];
+  }
+
+  //後半の要素を逆順にbにコピー
+  for (i = mid+1, j = high; i <= high; i++, j--) {
+    b[i] = a[j];
+  }
+
+  //作業用配列bの両端から取り出したデータをマージしてaに入れる
+  i = low;
+  j = high;
+  for (k = low; k <= high; k++) {
+    if (b[i] <= b[j]) {
+      a[k] = b[i++];
+    } else {
+      a[k] = b[j--];
+    }
+  }
+}
+
 int main () {
 }
