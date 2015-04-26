@@ -68,5 +68,56 @@ void shell_sort(int a[], int n) {
   }
 }
 
+//配列a[l]~a[r]を分割する、枢軸の添え字を返す
+int partition(int a[], int l, int r) {
+  int i, j, pivot, t;
+
+  i = l - 1;
+  j = r;
+
+  //一番右端の要素を枢軸とする
+  pivot = a[r];
+
+  //ポインタiとjがぶつかるまで繰り返す
+  for (;;) {
+    //ポインタiを右に進める
+    while(a[++i] < pivot) {
+      //ポインタjを左に進める
+      while(i < --j && pivot < a[j]) {
+        //i, jがぶつかったら抜ける
+        if (i >= j) {
+          break;
+        }
+
+        //iとjの指す要素を交換
+        t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+      }
+    }
+  }
+
+  //a[i]と枢軸の要素を交換する
+  t = a[i];
+  a[i] = a[r];
+  a[r] = t;
+  return i;
+}
+
+void quick_sort_1(int a[], int l, int r) {
+  //整列する要素が一つなら終わり
+  int v;
+  if (l >= r) {
+    return;
+  }
+  v = partition(a, l, r);
+  quick_sort_1(a, l, v-1);
+  quick_sort_1(a, v+1, r);
+}
+
+void quick_sort(int a[], int n) {
+  quick_sort_1(a, 0, n-1);
+}
+
 int main () {
 }
