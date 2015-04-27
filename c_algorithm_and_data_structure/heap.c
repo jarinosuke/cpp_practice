@@ -90,5 +90,17 @@ void insert(int elem) {
   upheap(n);
 }
 
+void heap_sort(int a[], int n) {
+  int i;
+
+  for (i = 0; i < n; i++) {
+    insert(a[i]);
+  }
+
+  for (i = 0; i < n; i++) {
+    a[i] = delete_min();
+  }
+}
+
 int main () {
 }
