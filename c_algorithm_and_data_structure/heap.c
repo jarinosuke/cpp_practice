@@ -8,16 +8,16 @@ int a[MAX_HEAP + 1];
 
 int n; //ヒープに入っている要素の個数
 
-void downheap () {
+void downheapfrom(int from, int to) {
   int i, j;
   int val;
 
   //沈められる要素の値をvalにセット
-  val = a[1];
+  val = a[from];
 
   //根からはじめて、節iが子を持っている限り繰り返し
   i = 1;
-  while (i <= n/2) {
+  while (i <= to/2) {
     //節iの子のうち小さい方を節jとする
     j = i * 2;
     if (j+1 <= n && a[j] < a[j+1]) {
@@ -38,6 +38,10 @@ void downheap () {
   a[i] = val;
 }
 
+void downheap () {
+  downheapfrom(1, n);
+
+}
 int delete_min () {
   int val;
 
@@ -90,7 +94,7 @@ void insert(int elem) {
   upheap(n);
 }
 
-void heap_sort(int a[], int n) {
+void sort(int a[], int n) {
   int i;
 
   for (i = 0; i < n; i++) {
@@ -99,6 +103,22 @@ void heap_sort(int a[], int n) {
 
   for (i = 0; i < n; i++) {
     a[i] = delete_min();
+  }
+}
+
+void heap_sort() {
+  int i;
+  int tmp;
+
+  for (i = n/2; i >= 1; i--) {
+    downheapfrom(i, n);
+  }
+
+  for (i = n; i >= 2; i--) {
+    tmp = a[1];
+    a[1] = a[i];
+    a[i] = tmp;
+    downheapfrom(1, i-1);
   }
 }
 
